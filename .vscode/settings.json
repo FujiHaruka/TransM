@@ -1,0 +1,6 @@
+{
+  // "terminal.integrated.env.osx": {
+  //   "PATH": "${env:HOME}/.deno/bin:${env:PATH}"
+  // },
+  "deno.enable": true,
+}
