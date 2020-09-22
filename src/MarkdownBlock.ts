@@ -8,7 +8,7 @@ type PositionPoint = {
 type Position = {
   start: PositionPoint;
   end: PositionPoint;
-}
+};
 
 type Node = {
   type: string;
@@ -20,27 +20,27 @@ type Ast = {
 };
 
 export type Block = {
-  position: Position
-  text: string
-}
+  position: Position;
+  text: string;
+};
 
 export class MarkdownBlock {
   static parse(markdown: string): MarkdownBlock {
     const ast: Ast = remark.parse(markdown);
     const positions: Position[] = ast.children
       .map(({
-        position: { start, end }
+        position: { start, end },
       }) => ({
         start: {
           line: start.line,
-          offset: start.offset
+          offset: start.offset,
         },
         end: {
           line: end.line,
           offset: end.offset,
         },
       }));
-    return new MarkdownBlock(markdown, positions)
+    return new MarkdownBlock(markdown, positions);
   }
 
   private constructor(readonly text: string, readonly positions: Position[]) {}
@@ -49,7 +49,7 @@ export class MarkdownBlock {
     return this.positions
       .map((position) => ({
         position,
-        text: this.text.slice(position.start.offset, position.end.offset) // Ignore the last line break charactors
-      }))
+        text: this.text.slice(position.start.offset, position.end.offset), // Ignore the last line break charactors
+      }));
   }
 }

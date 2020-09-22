@@ -12,10 +12,10 @@ Deno.test("parseBlock() #1", () => {
         },
         end: {
           line: 1,
-          offset: 7
+          offset: 7,
         },
       },
-      text: "# title"
+      text: "# title",
     },
     {
       position: {
@@ -26,9 +26,9 @@ Deno.test("parseBlock() #1", () => {
         end: {
           line: 4,
           offset: 30,
-        }
+        },
       },
-      text: "paragraph.\nparagraph."
+      text: "paragraph.\nparagraph.",
     },
     {
       position: {
@@ -39,12 +39,12 @@ Deno.test("parseBlock() #1", () => {
         end: {
           line: 6,
           offset: 44,
-        }
+        },
       },
-      text: "- item\n- item"
-    }
+      text: "- item\n- item",
+    },
   ];
-  const block = MarkdownBlock.parse(markdown)
+  const block = MarkdownBlock.parse(markdown);
   assertEquals(
     block.blocks(),
     blocks,
