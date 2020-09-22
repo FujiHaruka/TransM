@@ -1,33 +1,10 @@
-import { remark } from "../deps.ts";
-
-type PositionPoint = {
-  line: number;
-  offset: number;
-};
-
-type Position = {
-  start: PositionPoint;
-  end: PositionPoint;
-};
-
-type Node = {
-  type: string;
-  position: Position;
-};
-
-type Ast = {
-  children: Node[];
-};
-
-export type Block = {
-  position: Position;
-  text: string;
-};
+import { remark } from "../../deps.ts";
+import { MarkdownAst, TextPosition, TextBlock } from "./interfaces.ts";
 
 export class MarkdownBlock {
   static parse(markdown: string): MarkdownBlock {
-    const ast: Ast = remark.parse(markdown);
-    const positions: Position[] = ast.children
+    const ast: MarkdownAst = remark.parse(markdown);
+    const positions: TextPosition[] = ast.children
       .map(({
         position: { start, end },
       }) => ({
@@ -43,9 +20,12 @@ export class MarkdownBlock {
     return new MarkdownBlock(markdown, positions);
   }
 
-  private constructor(readonly text: string, readonly positions: Position[]) {}
+  private constructor(
+    readonly text: string,
+    readonly positions: TextPosition[],
+  ) {}
 
-  blocks(): Block[] {
+  blocks(): TextBlock[] {
     return this.positions
       .map((position) => ({
         position,

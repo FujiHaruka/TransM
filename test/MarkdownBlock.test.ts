@@ -1,9 +1,10 @@
-import { assertEquals } from "./test-deps.ts";
-import { MarkdownBlock, Block } from "../src/MarkdownBlock.ts";
+import { assertEquals } from "./_test-deps.ts";
+import { TextBlock } from "../src/core/interfaces.ts";
+import { MarkdownBlock } from "../src/core/MarkdownBlock.ts";
 
 Deno.test("parseBlock() #1", () => {
   const markdown = "# title\n\nparagraph.\nparagraph.\n- item\n- item\n";
-  const blocks: Block[] = [
+  const blocks: TextBlock[] = [
     {
       position: {
         start: {
