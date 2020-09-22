@@ -1,11 +1,5 @@
 import { TextBlock } from "./interfaces.ts";
-
-const originalTextComment = (block: TextBlock): string => {
-  return `<!-- L${block.position.start.line}..${block.position.end.line}
-${block.text}
--->
-`;
-};
+import { CommentWrapper } from "./CommentWrapper.ts"
 
 export class TranslationText {
   static create(blocks: TextBlock[]) {
@@ -20,7 +14,7 @@ export class TranslationText {
   toString(): string {
     return this.blocks
       .flatMap((block) => [
-        originalTextComment(block),
+        CommentWrapper.wrap(block) + "\n",
         block.text + "\n",
       ])
       .join("\n");
