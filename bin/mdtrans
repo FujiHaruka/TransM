@@ -1,3 +1,5 @@
 #!/bin/bash
+#
+# This command is for the purpose of local development.
 
 deno run --allow-read --allow-write $(dirname $0)/../cli.ts $@
