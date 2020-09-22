@@ -1,19 +1,21 @@
+import { Denomander } from "./deps.ts";
 import { create } from "./src/commands.ts";
 
-const [src, dest] = Deno.args;
+const program = new Denomander({
+  app_name: "mta",
+  app_description: "???",
+  app_version: "0.1.0",
+});
 
-if (!dest) {
-  console.error("Usage: ...");
-  Deno.exit(1);
-}
+program
+  .command("new [src] [dest]")
+  .action(async ({ src, dest }: { src: string; dest: string }) => {
+    try {
+      await create(src, dest);
+    } catch (e) {
+      console.error(e);
+      Deno.exit(1);
+    }
+  });
 
-const handleError = async (promise: Promise<void>) => {
-  try {
-    await promise;
-  } catch (e) {
-    console.error(e);
-    Deno.exit(1);
-  }
-};
-
-handleError(create(src, dest));
+program.parse(Deno.args);
