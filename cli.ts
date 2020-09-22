@@ -1,5 +1,6 @@
 import { Denomander } from "./deps.ts";
 import { create, update } from "./src/commands.ts";
+import { ExpectedError } from "./src/util/Error.ts";
 
 const program = new Denomander({
   app_name: "mdtrans",
@@ -20,7 +21,11 @@ program
       await create(src, dest);
       console.log(`Created: ${dest}`);
     } catch (e) {
-      console.error(e);
+      if (e instanceof ExpectedError) {
+        console.error(`[ERROR]`, e.message);
+      } else {
+        console.error(e);
+      }
       Deno.exit(1);
     }
   });
@@ -37,7 +42,11 @@ program
         console.log(`Up to date: ${dest}`);
       }
     } catch (e) {
-      console.error(e);
+      if (e instanceof ExpectedError) {
+        console.error(`[ERROR]`, e.message);
+      } else {
+        console.error(e);
+      }
       Deno.exit(1);
     }
   });

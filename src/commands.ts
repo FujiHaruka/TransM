@@ -1,7 +1,7 @@
-import { exists } from "https://deno.land/std/fs/exists.ts";
 import { MarkdownBlock } from "./core/MarkdownBlock.ts";
 import { TranslationMap } from "./core/TranslationMap.ts";
 import { TranslationText } from "./core/TranslationText.ts";
+import { assertExist, assertNotExist } from "./util/fs.ts";
 
 /**
  * Creat a translation markdown file.
@@ -9,10 +9,8 @@ import { TranslationText } from "./core/TranslationText.ts";
  * @param dest - destination file path
  */
 export const create = async (src: string, dest: string) => {
-  const already = await exists(dest);
-  if (already) {
-    throw new Error(`File already exists: ${dest}`);
-  }
+  await assertExist(src);
+  await assertNotExist(dest);
   const buf = await Deno.readFile(src);
   const decoder = new TextDecoder("utf-8");
   const markdown = decoder.decode(buf);
@@ -28,18 +26,8 @@ export const create = async (src: string, dest: string) => {
  * @param dest - destination file path
  */
 export const update = async (src: string, dest: string): Promise<boolean> => {
-  {
-    const already = await exists(src);
-    if (!already) {
-      throw new Error(`File doesn't exists: ${src}`);
-    }
-  }
-  {
-    const already = await exists(dest);
-    if (!already) {
-      throw new Error(`File doesn't exists: ${dest}`);
-    }
-  }
+  await assertExist(src);
+  await assertExist(dest);
   const decoder = new TextDecoder("utf-8");
   const srcMarkdown = decoder.decode(await Deno.readFile(src));
   const destMarkdown = decoder.decode(await Deno.readFile(dest));

@@ -13,7 +13,7 @@ ${block.text}
   },
   unwrap(html: string): string {
     if (!this.is(html)) {
-      throw new Error();
+      throw new Error("Unexpected error");
     }
     return PATTERN.exec(html)![1];
   },
