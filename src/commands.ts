@@ -15,3 +15,23 @@ export const create = async (src: string, dest: string) => {
   const encoder = new TextEncoder();
   await Deno.writeFile(dest, encoder.encode(output));
 };
+
+export const update = async (src: string, dest: string) => {
+  {
+    const already = await exists(src);
+    if (!already) {
+      throw new Error(`File doesn't exists: ${src}`);
+    }
+  }
+  {
+    const already = await exists(dest);
+    if (!already) {
+      throw new Error(`File doesn't exists: ${dest}`);
+    }
+  }
+  const decoder = new TextDecoder("utf-8");
+  const srcMarkdown = decoder.decode(await Deno.readFile(src))
+  const destMarkdown = decoder.decode(await Deno.readFile(dest))
+  const block = MarkdownBlock.parse(srcMarkdown)
+  // TODO:
+}
