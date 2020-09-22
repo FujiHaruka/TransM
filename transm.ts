@@ -5,7 +5,7 @@ import { ExpectedError } from "./src/util/Error.ts";
 const program = new Denomander({
   app_name: "transm",
   app_description: "Translation assistant tool for Markdown document",
-  app_version: "1.0.0",
+  app_version: "1.0.1",
 });
 
 type Args = {
