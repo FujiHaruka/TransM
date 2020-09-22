@@ -30,8 +30,12 @@ program
   .description("Update a translation markdown file.")
   .action(async ({ src, dest }: Args) => {
     try {
-      await update(src, dest);
-      console.log(`Updated: ${dest}`);
+      const updated = await update(src, dest);
+      if (updated) {
+        console.log(`Updated: ${dest}`);
+      } else {
+        console.log(`Up to date: ${dest}`);
+      }
     } catch (e) {
       console.error(e);
       Deno.exit(1);

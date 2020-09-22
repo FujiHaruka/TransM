@@ -27,7 +27,7 @@ export const create = async (src: string, dest: string) => {
  * @param src - source file path
  * @param dest - destination file path
  */
-export const update = async (src: string, dest: string) => {
+export const update = async (src: string, dest: string): Promise<boolean> => {
   {
     const already = await exists(src);
     if (!already) {
@@ -45,8 +45,13 @@ export const update = async (src: string, dest: string) => {
   const destMarkdown = decoder.decode(await Deno.readFile(dest));
   const block = MarkdownBlock.parse(srcMarkdown);
   const translationMap = TranslationMap.parse(destMarkdown);
-  const output = TranslationText.merge(block.blocks(), translationMap)
+  const translation = TranslationText.merge(block.blocks(), translationMap);
+  const output = translation
     .toString();
+  if (translation.upToDate()) {
+    return false;
+  }
   const encoder = new TextEncoder();
   await Deno.writeFile(dest, encoder.encode(output));
+  return true;
 };

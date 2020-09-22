@@ -36,12 +36,22 @@ export class TranslationMap {
     return new TranslationMap(map, header);
   }
 
+  private used = new Set<string>();
+
   private constructor(
     private readonly map: Map<string, string>,
     readonly header: string,
   ) {}
 
   get(origText: string): string | undefined {
-    return this.map.get(origText);
+    const translated = this.map.get(origText);
+    if (translated) {
+      this.used.add(origText);
+    }
+    return translated;
+  }
+
+  usesAll(): boolean {
+    return this.used.size === this.map.size;
   }
 }

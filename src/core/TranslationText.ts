@@ -24,4 +24,9 @@ export class TranslationText {
       ])
       .join("\n");
   }
+
+  upToDate(): boolean {
+    // must be called after toString()
+    return this.translationMap?.usesAll() || false;
+  }
 }
