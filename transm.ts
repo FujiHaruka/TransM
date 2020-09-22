@@ -51,4 +51,9 @@ program
     }
   });
 
-program.parse(Deno.args);
+try {
+  program.parse(Deno.args);
+} catch (e) {
+  console.error(`[ERROR]`, e.message);
+  Deno.exit(1);
+}
