@@ -3,6 +3,11 @@ import { MarkdownBlock } from "./core/MarkdownBlock.ts";
 import { TranslationMap } from "./core/TranslationMap.ts";
 import { TranslationText } from "./core/TranslationText.ts";
 
+/**
+ * Creat a translation markdown file.
+ * @param src - source file path
+ * @param dest - destination file path
+ */
 export const create = async (src: string, dest: string) => {
   const already = await exists(dest);
   if (already) {
@@ -17,6 +22,11 @@ export const create = async (src: string, dest: string) => {
   await Deno.writeFile(dest, encoder.encode(output));
 };
 
+/**
+ * Update a translation markdown file.
+ * @param src - source file path
+ * @param dest - destination file path
+ */
 export const update = async (src: string, dest: string) => {
   {
     const already = await exists(src);
