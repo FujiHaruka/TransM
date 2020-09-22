@@ -1,5 +1,6 @@
 import { exists } from "https://deno.land/std/fs/exists.ts";
 import { MarkdownBlock } from "./core/MarkdownBlock.ts";
+import { TranslationMap } from "./core/TranslationMap.ts";
 import { TranslationText } from "./core/TranslationText.ts";
 
 export const create = async (src: string, dest: string) => {
@@ -30,8 +31,12 @@ export const update = async (src: string, dest: string) => {
     }
   }
   const decoder = new TextDecoder("utf-8");
-  const srcMarkdown = decoder.decode(await Deno.readFile(src))
-  const destMarkdown = decoder.decode(await Deno.readFile(dest))
-  const block = MarkdownBlock.parse(srcMarkdown)
-  // TODO:
-}
+  const srcMarkdown = decoder.decode(await Deno.readFile(src));
+  const destMarkdown = decoder.decode(await Deno.readFile(dest));
+  const block = MarkdownBlock.parse(srcMarkdown);
+  const translationMap = TranslationMap.parse(destMarkdown);
+  const output = TranslationText.merge(block.blocks(), translationMap)
+    .toString();
+  const encoder = new TextEncoder();
+  await Deno.writeFile(dest, encoder.encode(output));
+};

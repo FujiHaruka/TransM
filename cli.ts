@@ -10,7 +10,7 @@ const program = new Denomander({
 type Args = {
   src: string;
   dest: string;
-}
+};
 
 program
   .command("new [src] [dest]")
@@ -25,13 +25,13 @@ program
 
 program
   .command("update [src] [dest]")
-  .action(async ({src, dest}: Args) => {
+  .action(async ({ src, dest }: Args) => {
     try {
-      await update(src, dest)
+      await update(src, dest);
     } catch (e) {
       console.error(e);
       Deno.exit(1);
     }
-  })
+  });
 
 program.parse(Deno.args);

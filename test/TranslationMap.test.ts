@@ -1,7 +1,5 @@
 import { assertEquals } from "./_test-deps.ts";
-import { TextBlock } from "../src/core/interfaces.ts";
-import { MarkdownBlock } from "../src/core/MarkdownBlock.ts";
-import { TranslationMap } from "../src/core/TranslationMap.ts"
+import { TranslationMap } from "../src/core/TranslationMap.ts";
 
 Deno.test("TranslationMap #1", () => {
   const markdown = `
@@ -9,21 +7,33 @@ Deno.test("TranslationMap #1", () => {
 # title
 -->
 
-# title
+# タイトル
 
 <!-- L3..3
 paragraph.
 -->
 
-paragraph.
+パラグラフ.
 
 <!-- L5..6
 - list
 - item
 -->
 
-- list
-- item
-`
-  // TranslationMap.parse(markdown)
+- リスト
+- アイテム
+`;
+  const map = TranslationMap.parse(markdown);
+  assertEquals(
+    map.get("# title"),
+    "# タイトル",
+  );
+  assertEquals(
+    map.get("paragraph."),
+    "パラグラフ.",
+  );
+  assertEquals(
+    map.get("- list\n- item"),
+    "- リスト\n- アイテム",
+  );
 });

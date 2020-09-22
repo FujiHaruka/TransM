@@ -1,22 +1,43 @@
 import { remark } from "../../deps.ts";
-import { MarkdownAst, TextPosition, TextBlock } from "./interfaces.ts";
+import { CommentWrapper } from "./CommentWrapper.ts";
+import { MarkdownAst } from "./interfaces.ts";
 
 export class TranslationMap {
-   static parse(markdown: string): TranslationMap {
-     const ast: MarkdownAst = remark.parse(markdown);
-     for (const node of ast.children) {
-       const raw = markdown.slice(node.position.start.offset, node.position.end.offset)
-       if (node.type === "html") {
+  static parse(markdown: string): TranslationMap {
+    const ast: MarkdownAst = remark.parse(markdown);
+    const sliceOffsets: number[] = [];
+    for (const { type, position: { start, end }, value } of ast.children) {
+      if (type === "html" && CommentWrapper.is(value || "")) {
+        sliceOffsets.push(start.offset);
+        sliceOffsets.push(end.offset);
+      }
+    }
+    const entries = sliceOffsets
+      .map((offset, index) => {
+        if (index % 2 === 0) {
+          // html comment
+          const offset2 = sliceOffsets[index + 1];
+          const offset3 = sliceOffsets[index + 2] || undefined; // to the last
+          const orig = markdown.slice(offset, offset2);
+          const translated = markdown.slice(offset2, offset3);
+          return [
+            CommentWrapper.unwrap(orig),
+            translated.trim(),
+          ] as [string, string];
+        } else {
+          // markdown
+          return null;
+        }
+      })
+      .filter((entry): entry is [string, string] => Boolean(entry));
 
-       } else {
+    const map = new Map<string, string>(entries);
+    return new TranslationMap(map);
+  }
 
-       }
-     }
-     console.log(ast)
-     return new TranslationMap()
-   }
+  private constructor(private readonly map: Map<string, string>) {}
 
-   private constructor(
-
-   ) {}
+  get(origText: string): string | undefined {
+    return this.map.get(origText);
+  }
 }

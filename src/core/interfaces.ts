@@ -10,6 +10,7 @@ export type TextPosition = {
 
 export type MarkdownNode = {
   type: string;
+  value?: string; // has when type is "html"
   position: TextPosition;
 };
 

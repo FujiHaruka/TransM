@@ -1,21 +1,26 @@
 import { TextBlock } from "./interfaces.ts";
-import { CommentWrapper } from "./CommentWrapper.ts"
+import { CommentWrapper } from "./CommentWrapper.ts";
+import { TranslationMap } from "./TranslationMap.ts";
 
 export class TranslationText {
   static create(blocks: TextBlock[]) {
     return new TranslationText(blocks);
   }
 
+  static merge(blocks: TextBlock[], map: TranslationMap) {
+    return new TranslationText(blocks, map);
+  }
+
   private constructor(
     private readonly blocks: TextBlock[],
-    // private readonly textMap?: Map<string, string> // 一度しか値を使えない Map にしたい
+    private readonly translationMap?: TranslationMap,
   ) {}
 
   toString(): string {
     return this.blocks
       .flatMap((block) => [
         CommentWrapper.wrap(block) + "\n",
-        block.text + "\n",
+        (this.translationMap?.get(block.text) || block.text) + "\n",
       ])
       .join("\n");
   }
