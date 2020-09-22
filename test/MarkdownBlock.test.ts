@@ -2,7 +2,7 @@ import { assertEquals } from "./_test-deps.ts";
 import { TextBlock } from "../src/core/interfaces.ts";
 import { MarkdownBlock } from "../src/core/MarkdownBlock.ts";
 
-Deno.test("parseBlock() #1", () => {
+Deno.test("MarkdownBlock #1", () => {
   const markdown = "# title\n\nparagraph.\nparagraph.\n- item\n- item\n";
   const blocks: TextBlock[] = [
     {

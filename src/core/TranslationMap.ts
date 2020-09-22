@@ -32,10 +32,11 @@ export class TranslationMap {
       .filter((entry): entry is [string, string] => Boolean(entry));
 
     const map = new Map<string, string>(entries);
-    return new TranslationMap(map);
+    const header = markdown.slice(0, sliceOffsets[0])
+    return new TranslationMap(map, header);
   }
 
-  private constructor(private readonly map: Map<string, string>) {}
+  private constructor(private readonly map: Map<string, string>, readonly header: string) {}
 
   get(origText: string): string | undefined {
     return this.map.get(origText);
