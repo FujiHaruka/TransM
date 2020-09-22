@@ -2,7 +2,7 @@ import { assertEquals } from "./_test-deps.ts";
 import { MarkdownBlock } from "../src/core/MarkdownBlock.ts";
 import { TranslationText } from "../src/core/TranslationText.ts";
 
-Deno.test("TranslationText #1", () => {
+Deno.test("TranslationText.create() #1", () => {
   const markdown = "# title\n\nparagraph.\nparagraph.\n- item\n- item\n";
   const block = MarkdownBlock.parse(markdown);
   const translation = TranslationText.create(block.blocks());
