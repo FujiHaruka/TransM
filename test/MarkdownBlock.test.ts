@@ -51,3 +51,26 @@ Deno.test("MarkdownBlock #1", () => {
     blocks,
   );
 });
+
+Deno.test("MarkdownBlock #2 / should exclude html comments", () => {
+  const markdown = "# title\n<!-- foo -->";
+  const blocks: TextBlock[] = [
+    {
+      position: {
+        start: {
+          line: 1,
+          offset: 0,
+        },
+        end: {
+          line: 1,
+          offset: 7,
+        },
+      },
+      text: "# title",
+    },
+  ];
+  assertEquals(
+    MarkdownBlock.parse(markdown).blocks(),
+    blocks,
+  );
+});

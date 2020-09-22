@@ -1,10 +1,20 @@
 import { remark } from "../../deps.ts";
-import { MarkdownAst, TextPosition, TextBlock } from "./interfaces.ts";
+import {
+  MarkdownAst,
+  TextPosition,
+  TextBlock,
+  MarkdownNode,
+} from "./interfaces.ts";
+
+const isCommentNode = (node: MarkdownNode) => {
+  return node.type === "html" && node.value?.startsWith("<!--");
+};
 
 export class MarkdownBlock {
   static parse(markdown: string): MarkdownBlock {
     const ast: MarkdownAst = remark.parse(markdown);
     const positions: TextPosition[] = ast.children
+      .filter((node) => !isCommentNode(node))
       .map(({
         position: { start, end },
       }) => ({
