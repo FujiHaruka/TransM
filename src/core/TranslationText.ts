@@ -20,7 +20,7 @@ export class TranslationText {
     return (this.translationMap?.header || "") + this.blocks
       .flatMap((block) => [
         CommentWrapper.wrap(block) + "\n",
-        (this.translationMap?.get(block.text) || block.text) + "\n",
+        (this.translationMap?.get(block.text) ?? block.text) + "\n",
       ])
       .join("\n");
   }

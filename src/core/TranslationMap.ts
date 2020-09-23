@@ -45,7 +45,7 @@ export class TranslationMap {
 
   get(origText: string): string | undefined {
     const translated = this.map.get(origText);
-    if (translated) {
+    if (translated !== undefined) {
       this.used.add(origText);
     }
     return translated;
