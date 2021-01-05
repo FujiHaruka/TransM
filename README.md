@@ -1,6 +1,29 @@
 # TransM
 
-TransM is a translation assistant tool for Markdown document which keeps your translation maintainable.
+## Overview
+
+TransM is a translation assistant tool for Markdown document files which keeps your translation maintainable.
+
+It provides CLI to create a translation markdown file from an original markdown file.
+The translation file contains both original texts and translated texts as the following:
+
+```markdown
+<!-- L1..1
+# Title
+-->
+
+# タイトル
+
+<!-- L3..4
+* item1
+* item2
+-->
+
+* 要素1
+* 要素2
+```
+
+The file has oritignal texts as HTML comments so they will be hidden on rendering. This approach enables to keep correspondence between original sentences and translated sentences in a single file. It's usefull to check correctness of translation and maintain.
 
 ## Installation
 
