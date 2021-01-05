@@ -32,7 +32,7 @@ You need Deno before installing this tool.
 Then, install TransM CLI.
 
 ```
-$ deno install --allow-read --allow-write https://deno.land/x/transm/transm.ts
+$ deno install --no-check --allow-read --allow-write https://deno.land/x/transm/transm.ts
 ```
 
 ## Getting Started
