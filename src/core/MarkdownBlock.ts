@@ -1,9 +1,9 @@
 import { remark } from "../../deps.ts";
 import {
   MarkdownAst,
-  TextPosition,
-  TextBlock,
   MarkdownNode,
+  TextBlock,
+  TextPosition,
 } from "./interfaces.ts";
 
 const isCommentNode = (node: MarkdownNode) => {

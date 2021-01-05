@@ -1,17 +1,18 @@
-import { exists } from "https://deno.land/std/fs/exists.ts";
+import { ensureFile, exists } from "../../deps.ts";
 import { ExpectedError } from "./Error.ts";
 
-export const assertExist = async (file: string) => {
-  const ok = await exists(file);
-  if (!ok) {
-    throw new ExpectedError(`File doesn't exist: ${file}`);
+export const assertFileExist = async (file: string) => {
+  try {
+    await ensureFile(file);
+  } catch (e) {
+    throw new ExpectedError(e.message + `: ${file}`);
   }
 };
 
-export const assertNotExist = async (file: string) => {
+export const assertFileNotExist = async (file: string) => {
   const ok = await exists(file);
   if (ok) {
-    throw new ExpectedError(`File already exists: ${file}`);
+    throw new ExpectedError(`A file or directory already exists: ${file}`);
   }
 };
 

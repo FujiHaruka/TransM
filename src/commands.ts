@@ -1,7 +1,12 @@
 import { MarkdownBlock } from "./core/MarkdownBlock.ts";
 import { TranslationMap } from "./core/TranslationMap.ts";
 import { TranslationText } from "./core/TranslationText.ts";
-import { assertExist, assertNotExist, readFile, writeFile } from "./util/fs.ts";
+import {
+  assertFileExist,
+  assertFileNotExist,
+  readFile,
+  writeFile,
+} from "./util/fs.ts";
 
 /**
  * Creat a translation markdown file.
@@ -9,8 +14,8 @@ import { assertExist, assertNotExist, readFile, writeFile } from "./util/fs.ts";
  * @param dest - destination file path
  */
 export const create = async (src: string, dest: string) => {
-  await assertExist(src);
-  await assertNotExist(dest);
+  await assertFileExist(src);
+  await assertFileNotExist(dest);
   const markdown = await readFile(src);
   const block = MarkdownBlock.parse(markdown);
   const output = TranslationText.create(block.blocks()).toString();
@@ -23,8 +28,8 @@ export const create = async (src: string, dest: string) => {
  * @param dest - destination file path
  */
 export const update = async (src: string, dest: string): Promise<boolean> => {
-  await assertExist(src);
-  await assertExist(dest);
+  await assertFileExist(src);
+  await assertFileNotExist(dest);
   const srcMd = await readFile(src);
   const destMd = await readFile(dest);
   const block = MarkdownBlock.parse(srcMd);
